@@ -23,7 +23,7 @@ export async function getStaticPaths({ locale }) {
   const from = 'page-paths'
   const { postCount, NOTION_CONFIG } = await getGlobalData({ from, locale })
   const totalPages = Math.ceil(
-    postCount / siteConfig('POSTS_PER_PAGE', 12, NOTION_CONFIG)
+    postCount / siteConfig('POSTS_PER_PAGE', null, NOTION_CONFIG)
   )
   return {
     // remove first page, we 're not gonna handle that.
@@ -34,9 +34,9 @@ export async function getStaticPaths({ locale }) {
   }
 }
 
-export async function getStaticProps({ params: { page } }) {
+export async function getStaticProps({ params: { page }, locale }) {
   const from = `page-${page}`
-  const props = await getGlobalData({ from })
+  const props = await getGlobalData({ from, locale })
   const { allPages } = props
   const POST_PREVIEW_LINES = siteConfig(
     'POST_PREVIEW_LINES',
